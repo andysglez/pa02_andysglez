@@ -38,16 +38,24 @@ int main(int argc, char** argv){
 
   // Create an objects of the BST class you defined 
   // to contain the name and rating in the input file
-
+  BST mytree;
 
   // Read each file and store the name and rating
   while (getline (movieFile, line) && parseLine(line, movieName, movieRating)){
+    Node* movie1 = new Node(movieName, movieRating);
+    mytree.insert(movie1);
+    delete movie1;
     // Use std::string movieName and double movieRating
     // to construct your Movie objects
-    cout << movieName << " has rating " << movieRating << endl;
+    //cout << movieName << " has rating " << movieRating << endl;
   }
   movieFile.close();
-
+  mytree.print_preorder();
+  Node* n = mytree.highest_rated(argv[3]);
+  if (n) {
+    cout << endl << "Best movie is " << n->name
+    << " with rating " << n->rating << endl;
+  }
   return 0;
 }
 

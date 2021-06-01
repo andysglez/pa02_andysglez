@@ -1,6 +1,7 @@
  // These files should contain your implementation of the binary search tree to store movies information
 #include <string>
 #include <iostream>
+#include <vector>
 using namespace std;
 
 struct Node {
@@ -24,6 +25,7 @@ class BST {
         int getDepth(Node*n) const;
         Node* getRoot() {return root;}
     private:
+        vector<Node*> prefix_collect;
         void print_preorder(Node* n);
         Node* highest_rated(string prefix, Node* n);
         int CalcDepth(Node* n);

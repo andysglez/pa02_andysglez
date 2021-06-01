@@ -2,6 +2,7 @@
   #include "movies.h"
   #include <string>
   #include <iostream>
+  #include <vector>
   using namespace std;
 
 Node::Node(const Node& n){
@@ -95,27 +96,27 @@ Node* BST::highest_rated(string prefix) {
     return highest_rated(prefix, root);
 }
 
+
 Node* BST::highest_rated(string prefix, Node* n) {
-    int len = prefix.length();
     if (n) {
-        string SearchFix = n->name.substr(0, len);
-        if (prefix > SearchFix) {
-            return highest_rated(prefix, n->right);
+        if(n->name.length() > prefix.length()) {
+            string searchfix = n->name.substr(0,prefix.length());
+            if (prefix == searchfix) {
+                prefix_collect.push_back(n);
+            }  
         }
-        else if (prefix < SearchFix) {
-            return highest_rated(prefix, n->left);
-        }
-        else if (n->right && prefix==SearchFix) {
-            string RightFix = n->right->name.substr(0,len);
-            if (prefix == RightFix) {
-                return highest_rated(prefix, n->right);
-            }
-        }
-        else {
-            return n;
+        if (n->right) {highest_rated(prefix, n->right);}
+        if (n->left) {highest_rated(prefix, n->left);}
+    }
+    Node* hr_Node = nullptr;
+    double hr(0);
+    for(auto l: prefix_collect) {
+        if (l->rating>hr) {
+            hr_Node = l;
+            hr = l->rating;
         }
     }
-    return NULL;
+    return hr_Node;
 }
 
 int BST::getDepth(Node* n) const{
