@@ -1,10 +1,11 @@
 CXXFLAGS: -std=c++11 -Wall
-
+all: movies.o utility.o main.cpp tests.o
+	g++ $(CXXFLAGS) main.cpp movies.o utility.o -o runMovies
+	g++ $(CXXFLAGS) tests.o movies.o -o tests
 runMovies: movies.o utility.o main.cpp
 	g++ $(CXXFLAGS) main.cpp movies.o utility.o -o runMovies
 tests: tests.o movies.o
 	g++ $(CXXFLAGS) tests.o movies.o -o tests
-	./tests
 movies.o: movies.cpp movies.h
 	g++ $(CXXFLAGS) -c movies.cpp
 utility.o: utility.cpp utility.h
