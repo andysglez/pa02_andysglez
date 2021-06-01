@@ -42,6 +42,39 @@ void BST::destroy(Node* node) { //similar to clear() intbst.cpp
     }
 }
 
+void BST::searchforAll() {
+    searchforAll(root);
+}
+void BST::searchforAll(Node *n) {
+    if (n) {
+        search(n);
+        searchforAll(n->right); 
+        searchforAll(n->left);
+    }
+}
+
+Node* BST::search(Node*n) {
+    return search(n, root);
+}
+Node* BST::search(Node* n, Node* sn) {
+    if (n) {
+        if (n->name == sn->name) {
+            return sn;
+        }
+        else if (n->name < sn->name) {
+            if (sn->left) {
+                return search(n, sn->left);
+            }
+        }
+        else if (n->name > sn->name) {
+            if (sn->right) {
+                return search(n, sn->right);
+            }
+        }
+    }
+    return nullptr;
+}
+
 void BST::insert(Node* movie) {
     if (!root) {
         Node* insertmovie = new Node(movie->name, movie->rating);
@@ -119,10 +152,11 @@ Node* BST::highest_rated(string prefix, Node* n) {
     return hr_Node;
 }
 
-int BST::getDepth(Node* n) const{
+int BST::getDepth(Node* n){
+    Node* n2 = search(n);
     int count(0);
-    while(n->parent) {
-        n = n->parent;
+    while(n2->parent) {
+        n2 = n2->parent;
         count++;
     }
     return count;

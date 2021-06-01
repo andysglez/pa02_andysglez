@@ -39,23 +39,55 @@ int main(int argc, char** argv){
   // Create an objects of the BST class you defined 
   // to contain the name and rating in the input file
   BST mytree;
-
+  int count(1);
   // Read each file and store the name and rating
+  if (!flag){
+    ofstream myfile;
+    myfile.open ("a.txt");
+    myfile << "Nodes count: Nodes visited:" << endl;
+    while (getline (movieFile, line) && parseLine(line, movieName, movieRating)){
+      Node* movie1 = new Node(movieName, movieRating);
+      mytree.insert(movie1);
+      //Nodes visited == depth of the node
+      int nodesvisited = mytree.getDepth(movie1);
+      myfile << count << "\t" << nodesvisited << endl;
+      count++;
+      delete movie1;
+    }
+    myfile.close();
+  }
+
   while (getline (movieFile, line) && parseLine(line, movieName, movieRating)){
     Node* movie1 = new Node(movieName, movieRating);
     mytree.insert(movie1);
     delete movie1;
-    // Use std::string movieName and double movieRating
-    // to construct your Movie objects
-    //cout << movieName << " has rating " << movieRating << endl;
   }
+
   movieFile.close();
-  mytree.print_preorder();
-  cout << endl;
-  Node* n = mytree.highest_rated(argv[3]);
-  if (n) {
-    cout << "Best movie is " << n->name
-    << " with rating " << n->rating << endl;
+
+  if (flag) { //part1
+    mytree.print_preorder();
+    cout << endl;
+    Node* n = mytree.highest_rated(argv[3]);
+    if (n) {
+      cout << "Best movie is " << n->name
+      << " with rating " << n->rating << endl;
+    }
+  }
+  if (!flag) { //part2
+    int arr[5];
+    for (int k = 0; k<5; k++) {
+      clock_t t = clock();
+      for(int i=0; i< *argv[3]; i++) {
+        mytree.searchforAll();
+      }
+      t = clock() - t;
+      arr[k] = t*200000/CLOCKS_PER_SEC;
+    } //t*200000 because *1000000 for microssec and /50 for argc[3] 1000000/50 = 200,000
+    cout << "Times in microseconds: " << endl;
+    for (int k = 0; k<5; k++) {
+      cout << arr[k] << endl;
+    }
   }
   return 0;
 }
