@@ -4,6 +4,8 @@ runMovies: movies.o utility.o main.cpp
 	g++ $(CXXFLAGS) main.cpp movies.o utility.o -o runMovies
 tests: tests.o movies.o
 	g++ $(CXXFLAGS) tests.o movies.o -o tests
+	./tests
+	make clean
 movies.o: movies.cpp movies.h
 	g++ $(CXXFLAGS) -c movies.cpp
 utility.o: utility.cpp utility.h
