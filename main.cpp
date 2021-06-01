@@ -51,9 +51,10 @@ int main(int argc, char** argv){
   }
   movieFile.close();
   mytree.print_preorder();
+  cout << endl;
   Node* n = mytree.highest_rated(argv[3]);
   if (n) {
-    cout << endl << "Best movie is " << n->name
+    cout << "Best movie is " << n->name
     << " with rating " << n->rating << endl;
   }
   return 0;
